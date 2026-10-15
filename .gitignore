@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+dist/
+*.egg-info/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# Environment variables & secrets (CRUCIAL)
+.env
+*.env
+*.key
+credentials.json
+*service_account*.json
+
+# IDE
+.vscode/
+.idea/
+.DS_Store

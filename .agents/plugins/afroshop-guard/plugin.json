@@ -1,0 +1,5 @@
+{
+  "name": "afroshop-guard",
+  "version": "1.0.0",
+  "description": "Security guardrails and prompt-injection defense for the AfroShop AI assistant on Google Cloud."
+}

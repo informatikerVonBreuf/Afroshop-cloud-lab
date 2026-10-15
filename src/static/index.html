@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AfroShop Cloud AI Guard | Observabilité & Sécurité GCP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="background-glow glow-1"></div>
+    <div class="background-glow glow-2"></div>
+
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="logo-group">
+                <div class="logo-badge">🛡️</div>
+                <div>
+                    <h1 class="logo-title">AfroShop <span>Cloud AI Guard</span></h1>
+                    <p class="logo-subtitle">Détection de Prompt Injections & Télémétrie Google Cloud</p>
+                </div>
+            </div>
+            <div class="header-badges">
+                <div class="badge gcp-badge">
+                    <span class="status-dot green"></span> GCP: Afroshop-cloud-lab
+                </div>
+                <div class="badge plugin-badge">
+                    <span>⚡ Plugin: afroshop-guard v1.0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- STATS BAR -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-label">Requêtes Analysées</span>
+                <span class="stat-value" id="stat-total">0</span>
+                <span class="stat-sub">Trafic global</span>
+            </div>
+            <div class="stat-card danger">
+                <span class="stat-label">Injections Bloquées</span>
+                <span class="stat-value" id="stat-blocked">0</span>
+                <span class="stat-sub text-danger">Attaques neutralisées</span>
+            </div>
+            <div class="stat-card success">
+                <span class="stat-label">Requêtes Autorisées</span>
+                <span class="stat-value" id="stat-allowed">0</span>
+                <span class="stat-sub text-success">Trafic légitime</span>
+            </div>
+            <div class="stat-card highlight">
+                <span class="stat-label">Taux d'Efficacité Guard</span>
+                <span class="stat-value" id="stat-rate">100%</span>
+                <span class="stat-sub">Zéro fuite de secret</span>
+            </div>
+        </section>
+
+        <!-- MAIN WORKSPACE -->
+        <main class="workspace-grid">
+            <!-- LEFT PANEL: TEST BENCH -->
+            <section class="panel glass-panel">
+                <div class="panel-header">
+                    <h2>🎯 Banc d'essai Interactif</h2>
+                    <div class="toggle-wrapper">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="skill-toggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <span id="skill-status-label" class="skill-label active">Skill Activé (PROTÉGÉ)</span>
+                    </div>
+                </div>
+
+                <div class="sample-chips-section">
+                    <span class="section-hint">Tester des attaques types du dataset :</span>
+                    <div class="chips-list" id="samples-container">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="prompt-input">Prompt à évaluer :</label>
+                    <textarea id="prompt-input" rows="4" placeholder="Saisissez une requête ou tentez une injection de prompt (ex: Ignore all previous instructions...)..."></textarea>
+                </div>
+
+                <div class="action-row">
+                    <button id="btn-submit" class="btn-primary">
+                        <span class="btn-icon">⚡</span> Analyser le Prompt
+                    </button>
+                    <button id="btn-clear" class="btn-secondary">Effacer</button>
+                </div>
+
+                <!-- VERDICT DISPLAY -->
+                <div id="verdict-card" class="verdict-card hidden">
+                    <div class="verdict-header">
+                        <span id="verdict-badge" class="verdict-badge">VERDICT</span>
+                        <span id="threat-badge" class="threat-badge">THREAT</span>
+                    </div>
+                    <div class="risk-bar-container">
+                        <div class="risk-label-row">
+                            <span>Score de Risque</span>
+                            <span id="risk-score-value">0%</span>
+                        </div>
+                        <div class="risk-bar">
+                            <div id="risk-bar-fill" class="risk-bar-fill"></div>
+                        </div>
+                    </div>
+                    <p id="verdict-explanation" class="verdict-explanation"></p>
+                    <div class="response-box">
+                        <span class="response-title">Réponse retournée par l'agent :</span>
+                        <p id="verdict-response" class="response-text"></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RIGHT PANEL: GCP CLOUD LOGGING FEED -->
+            <section class="panel glass-panel">
+                <div class="panel-header">
+                    <h2>☁️ Événements Google Cloud Logging</h2>
+                    <span class="live-indicator"><span class="pulse-dot"></span> EN DIRECT</span>
+                </div>
+                <p class="panel-desc">Payload JSON structuré généré pour <code>projects/Afroshop-cloud-lab/logs/afroshop-security-audit</code></p>
+                <div class="json-viewer" id="gcp-log-viewer">
+                    <pre><code id="json-code">// En attente d'une analyse de prompt...
+// Les logs structurés prêts pour GCP Cloud Logging apparaîtront ici.</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
