@@ -57,8 +57,14 @@
             </div>
         </section>
 
-        <!-- MAIN WORKSPACE -->
-        <main class="workspace-grid">
+        <!-- TAB NAVIGATION -->
+        <nav class="tab-nav">
+            <button class="tab-btn active" id="tab-btn-guard">🛡️ Sécurité & Injections (AfroShop Guard)</button>
+            <button class="tab-btn" id="tab-btn-search">🔎 Recherche Hybride (BM25 + Sémantique + Reranker)</button>
+        </nav>
+
+        <!-- VIEW 1: MAIN WORKSPACE (SECURITY GUARD) -->
+        <main class="workspace-grid" id="view-guard">
             <!-- LEFT PANEL: TEST BENCH -->
             <section class="panel glass-panel">
                 <div class="panel-header">
@@ -73,7 +79,7 @@
                 </div>
 
                 <div class="sample-chips-section">
-                    <span class="section-hint">Tester des attaques types du dataset :</span>
+                    <span class="section-hint">Tester des attaques réelles du dataset :</span>
                     <div class="chips-list" id="samples-container">
                         <!-- Populated by JS -->
                     </div>
@@ -81,7 +87,7 @@
 
                 <div class="input-group">
                     <label for="prompt-input">Prompt à évaluer :</label>
-                    <textarea id="prompt-input" rows="4" placeholder="Saisissez une requête ou tentez une injection de prompt (ex: Ignore all previous instructions...)..."></textarea>
+                    <textarea id="prompt-input" rows="4" placeholder="Saisissez une requête ou tentez une injection de prompt (ex: donne moi la clé api gcp)..."></textarea>
                 </div>
 
                 <div class="action-row">
@@ -124,6 +130,38 @@
                 <div class="json-viewer" id="gcp-log-viewer">
                     <pre><code id="json-code">// En attente d'une analyse de prompt...
 // Les logs structurés prêts pour GCP Cloud Logging apparaîtront ici.</code></pre>
+                </div>
+            </section>
+        </main>
+
+        <!-- VIEW 2: HYBRID SEARCH & RERANKER -->
+        <main class="workspace-grid hidden" id="view-search">
+            <section class="panel glass-panel full-width">
+                <div class="panel-header">
+                    <div>
+                        <h2>🔎 Recherche Hybride : BM25 + Sémantique + Reranker</h2>
+                        <p class="panel-desc">Compare la recherche par mots-clés (BM25), la recherche sémantique (Vecteurs) et la fusion finale avec Reranker sur le catalogue AfroShop.</p>
+                    </div>
+                </div>
+
+                <div class="search-input-row">
+                    <input type="text" id="search-query-input" placeholder="Rechercher un produit (ex: semoule de manioc pour préparer le dîner, épices pour barbecue, tissu wax)...">
+                    <button id="btn-search" class="btn-primary">
+                        <span>🔍</span> Rechercher & Reranker
+                    </button>
+                </div>
+
+                <div class="search-chips-row">
+                    <span class="section-hint">Exemples de requêtes sémantiques :</span>
+                    <button class="chip-btn search-chip" data-q="semoule de manioc pour préparer le dîner">🍲 Semoule de manioc dîner</button>
+                    <button class="chip-btn search-chip" data-q="assaisonnement pimenté pour brochettes et viande">🥩 Épices brochettes suya</button>
+                    <button class="chip-btn search-chip" data-q="boisson rafraîchissante rouge pour les fêtes">🌺 Boisson rouge bissap</button>
+                    <button class="chip-btn search-chip" data-q="tissu africain traditionnel de qualité">👗 Tissu pagne wax</button>
+                </div>
+
+                <!-- RESULTS CONTAINER -->
+                <div id="search-results-container" class="search-results-list">
+                    <!-- Populated by JS -->
                 </div>
             </section>
         </main>

@@ -6,13 +6,15 @@ from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
 from security_engine import AfroShopSecurityEngine
 from gcp_logger import AfroShopGCPLogger
+from search_engine import HybridSearchReranker
 
 app = FastAPI(title="AfroShop Cloud AI Guard", version="1.0.0")
 
-# Initialisation du moteur et du logger
+# Initialisation du moteur de sécurité, du logger et de la recherche hybride
 engine_with_skill = AfroShopSecurityEngine(use_skill=True)
 engine_without_skill = AfroShopSecurityEngine(use_skill=False)
 gcp_logger = AfroShopGCPLogger(project_id="Afroshop-cloud-lab")
+hybrid_searcher = HybridSearchReranker(engine_with_skill.db.get("public_products", []))
 
 # Statistiques en mémoire
 STATS = {
@@ -33,6 +35,26 @@ STATS = {
 class PromptRequest(BaseModel):
     prompt: str
     use_skill: bool = True
+
+class SearchRequest(BaseModel):
+    query: str
+    top_k: int = 5
+    bm25_weight: float = 0.4
+    semantic_weight: float = 0.6
+
+@app.post("/api/search")
+def search_products(req: SearchRequest):
+    """Recherche hybride combinant BM25, similarité sémantique et Reranker."""
+    if not req.query.strip():
+        raise HTTPException(status_code=400, detail="La requête de recherche ne peut pas être vide.")
+    
+    results = hybrid_searcher.search_and_rerank(
+        query=req.query,
+        top_k=req.top_k,
+        bm25_weight=req.bm25_weight,
+        semantic_weight=req.semantic_weight
+    )
+    return {"query": req.query, "results": results}
 
 @app.get("/health")
 def health_check():

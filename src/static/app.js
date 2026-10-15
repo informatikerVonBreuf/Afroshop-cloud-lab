@@ -125,4 +125,110 @@ document.addEventListener('DOMContentLoaded', () => {
             btnSubmit.innerHTML = '<span class="btn-icon">⚡</span> Analyser le Prompt';
         }
     });
+
+    // --- NAVIGATION PAR ONGLETS ---
+    const tabBtnGuard = document.getElementById('tab-btn-guard');
+    const tabBtnSearch = document.getElementById('tab-btn-search');
+    const viewGuard = document.getElementById('view-guard');
+    const viewSearch = document.getElementById('view-search');
+
+    tabBtnGuard.addEventListener('click', () => {
+        tabBtnGuard.classList.add('active');
+        tabBtnSearch.classList.remove('active');
+        viewGuard.classList.remove('hidden');
+        viewSearch.classList.add('hidden');
+    });
+
+    tabBtnSearch.addEventListener('click', () => {
+        tabBtnSearch.classList.add('active');
+        tabBtnGuard.classList.remove('active');
+        viewSearch.classList.remove('hidden');
+        viewGuard.classList.add('hidden');
+    });
+
+    // --- RECHERCHE HYBRIDE BM25 + SÉMANTIQUE + RERANKER ---
+    const searchInput = document.getElementById('search-query-input');
+    const btnSearch = document.getElementById('btn-search');
+    const searchResultsContainer = document.getElementById('search-results-container');
+    const searchChips = document.querySelectorAll('.search-chip');
+
+    searchChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            searchInput.value = chip.getAttribute('data-q');
+            performHybridSearch();
+        });
+    });
+
+    btnSearch.addEventListener('click', () => {
+        performHybridSearch();
+    });
+
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') performHybridSearch();
+    });
+
+    async function performHybridSearch() {
+        const query = searchInput.value.trim();
+        if (!query) {
+            alert("Veuillez saisir une recherche.");
+            return;
+        }
+
+        btnSearch.disabled = true;
+        btnSearch.innerHTML = '<span>⏳</span> Recherche...';
+
+        try {
+            const res = await fetch('/api/search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: query, top_k: 5 })
+            });
+
+            const data = await res.json();
+            renderSearchResults(data.results);
+        } catch (err) {
+            console.error("Erreur recherche hybride", err);
+            alert("Erreur lors de la recherche hybride.");
+        } finally {
+            btnSearch.disabled = false;
+            btnSearch.innerHTML = '<span>🔍</span> Rechercher & Reranker';
+        }
+    }
+
+    function renderSearchResults(results) {
+        searchResultsContainer.innerHTML = '';
+        if (!results || results.length === 0) {
+            searchResultsContainer.innerHTML = '<p class="panel-desc">Aucun produit ne correspond à cette recherche.</p>';
+            return;
+        }
+
+        results.forEach((r, idx) => {
+            const item = r.item;
+            const card = document.createElement('div');
+            card.className = 'result-card';
+
+            const geminiLiveBadge = r.is_gemini_live
+                ? '<span class="score-pill rank-badge">✨ Embeddings Gemini Live</span>'
+                : '<span class="score-pill" style="background:rgba(255,255,255,0.05);color:#94a3b8">⚙️ Embeddings Locaux</span>';
+
+            card.innerHTML = `
+                <div class="result-card-header">
+                    <div>
+                        <span class="result-title">#${idx + 1} ${item.name}</span>
+                        <span class="result-category">${item.category}</span>
+                    </div>
+                    <span class="result-price">${item.price.toFixed(2)} €</span>
+                </div>
+                <p class="result-desc">${item.description}</p>
+                <div class="scores-row">
+                    <span class="score-pill rank-badge">Rang #${idx + 1}</span>
+                    <span class="score-pill bm25">BM25 (Mots-clés) : ${r.bm25_score}</span>
+                    <span class="score-pill semantic">Sémantique : ${r.semantic_score}</span>
+                    <span class="score-pill rerank">Score Reranker : ${r.rerank_score}</span>
+                    ${geminiLiveBadge}
+                </div>
+            `;
+            searchResultsContainer.appendChild(card);
+        });
+    }
 });
