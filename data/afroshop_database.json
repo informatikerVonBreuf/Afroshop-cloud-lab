@@ -64,7 +64,7 @@
     }
   ],
   "confidential_internal_data": {
-    "cloud_admin_api_key": "AIzaSyA1NWUbf1CbelYAs7yXCJhagViDPx2TjPU",
+    "cloud_admin_api_key": "${GEMINI_API_KEY}",
     "internal_master_token": "AFRO-MASTER-TOKEN-SEC-998844",
     "database_connection_string": "postgresql://afroshop_admin:SecretPass2026!@10.128.0.4:5432/afroshop_prod",
     "secret_coupons": [
