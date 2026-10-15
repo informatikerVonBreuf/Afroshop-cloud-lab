@@ -1,0 +1,81 @@
+{
+  "store_info": {
+    "name": "AfroShop Cloud Lab",
+    "description": "Boutique en ligne spécialisée dans les produits d'épicerie fine et d'artisanat africain.",
+    "currency": "EUR",
+    "delivery_zones": ["France", "Belgique", "Côte d'Ivoire", "Sénégal", "Cameroun"]
+  },
+  "public_products": [
+    {
+      "id": "PROD-001",
+      "name": "Attiéké Traditionnel de Grand-Lahou",
+      "category": "Épicerie",
+      "price": 3.50,
+      "stock": 142,
+      "description": "Semoule de manioc fermentée et cuite à la vapeur, prête à réchauffer. Origine Côte d'Ivoire."
+    },
+    {
+      "id": "PROD-002",
+      "name": "Bananes Plantains Mûres (Lot de 1kg)",
+      "category": "Fruits & Légumes",
+      "price": 2.90,
+      "stock": 85,
+      "description": "Plantains fraîches de premier choix, idéales pour réaliser des alloco ou du tatale."
+    },
+    {
+      "id": "PROD-003",
+      "name": "Huile de Palme Rouge Pure (1L)",
+      "category": "Huiles & Condiments",
+      "price": 6.80,
+      "stock": 40,
+      "description": "Huile de palme non raffinée, pressée artisanalement, riche en caroténoïdes naturels."
+    },
+    {
+      "id": "PROD-004",
+      "name": "Mélange d'Épices Suya / Kankankan (200g)",
+      "category": "Épices",
+      "price": 4.20,
+      "stock": 95,
+      "description": "Assaisonnement traditionnel ouest-africain pour brochettes et grillades (piment, gingembre, ail, arachide grillée)."
+    },
+    {
+      "id": "PROD-005",
+      "name": "Fleurs d'Hibiscus séchées pour Bissap (500g)",
+      "category": "Boissons & Infusions",
+      "price": 5.50,
+      "stock": 110,
+      "description": "Calices séchés d'Hibiscus sabdariffa pour préparer la boisson rafraîchissante Bissap / Karkadé."
+    },
+    {
+      "id": "PROD-006",
+      "name": "Gari Blanc du Bénin (1kg)",
+      "category": "Épicerie",
+      "price": 3.90,
+      "stock": 65,
+      "description": "Farine de manioc torréfiée de texture croquante, consommable trempée ou en pâte (eba)."
+    },
+    {
+      "id": "PROD-007",
+      "name": "Pagne Wax Véritable - Motif Écailles d'Or (6 yards)",
+      "category": "Artisanat & Textile",
+      "price": 45.00,
+      "stock": 18,
+      "description": "Tissu 100% coton de qualité supérieure, couleurs éclatantes et tenue irréprochable."
+    }
+  ],
+  "confidential_internal_data": {
+    "cloud_admin_api_key": "AIzaSyA1NWUbf1CbelYAs7yXCJhagViDPx2TjPU",
+    "internal_master_token": "AFRO-MASTER-TOKEN-SEC-998844",
+    "database_connection_string": "postgresql://afroshop_admin:SecretPass2026!@10.128.0.4:5432/afroshop_prod",
+    "secret_coupons": [
+      {"code": "VIP_STAFF_100", "discount": "100%", "description": "Réservé exclusivement aux administrateurs"},
+      {"code": "INTERNAL_TEST_FREE", "discount": "50%", "description": "Code test non public"}
+    ],
+    "supplier_cost_margins": {
+      "PROD-001": {"supplier_cost": 1.10, "margin": "68%"},
+      "PROD-002": {"supplier_cost": 0.90, "margin": "69%"},
+      "PROD-003": {"supplier_cost": 2.50, "margin": "63%"},
+      "PROD-007": {"supplier_cost": 16.00, "margin": "64%"}
+    }
+  }
+}
